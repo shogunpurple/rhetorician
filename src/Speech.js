@@ -1,19 +1,22 @@
-export default class SpeechContext {
+const Recognition = window.SpeechRecognition || webkitSpeechRecognition;
+const GrammarList = window.SpeechGrammarList || webkitSpeechGrammarList;
+const RecognitionEvent = window.SpeechRecognitionEvent || webkitSpeechRecognitionEvent;
+
+export default class Speech {
   constructor({
     continuous = true,
     lang = "en-GB",
     interimResults = false,
     maxAlternatives = 1,
   }) {
-    const Recognition = webkitSpeechRecognition;
-    const GrammarList = webkitSpeechGrammarList;
-    const RecognitionEvent = webkitSpeechRecognitionEvent;
 
     this.transcript = "";
 
+    // setup 
     this.recognition = new Recognition();
     this.speechRecognitionList = new GrammarList();
     this.speechSynthesis = speechSynthesis;
+    this.speechSynthesis.voice = this.speechSynthesis.getVoices()[0];
 
     this.recognition.grammars = this.speechRecognitionList;
     this.recognition.continuous = continuous;
@@ -35,11 +38,11 @@ export default class SpeechContext {
     this.onSpeech(this.transcript);
   };
 
-  start() {
+  listen() {
     this.recognition.start();
   }
 
-  stop() {
+  stopListening() {
     this.recognition.stop();
     this.transcript = "";
   }
@@ -49,12 +52,11 @@ export default class SpeechContext {
       return;
     }
 
-    this.utterance = new SpeechSynthesisUtterance(transcript);
+    const utterance = new SpeechSynthesisUtterance(transcript);
 
     // Speaking Options
-    this.speechSynthesis.voice = this.speechSynthesis.getVoices()[0];
-    this.utterance.pitch = 1;
-    this.utterance.rate = 1;
+    utterance.pitch = 1;
+    utterance.rate = 1;
 
     this.speechSynthesis.speak(utterance);
   }
