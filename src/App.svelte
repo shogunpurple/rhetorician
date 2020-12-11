@@ -1,15 +1,15 @@
 <script>
-	import SpeechContext from "./SpeechContext";
+	import Speech from "./Speech";
 
 	export let name;
 
 	let spokenText = "";
 
-	const speech = new SpeechContext({});
+	const speech = new Speech({});
 	speech.onSpeech = (transcript) => (spokenText = transcript)
 
 	function start() {
-		speech.start();
+		speech.listen();
 	}
 
 	function speak() {
