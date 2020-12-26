@@ -1,20 +1,6 @@
 <script>
-	import Speech from "./Speech";
-
-	export let name;
-
-	let spokenText = "";
-
-	const speech = new Speech({});
-	speech.onSpeech = (transcript) => (spokenText = transcript)
-
-	function start() {
-		speech.listen();
-	}
-
-	function speak() {
-		speech.speak(spokenText);
-	}
+	import Rhetorician from "./components/SpeechRecognition.svelte"
+	import { speechStore } from "./stores"
 </script>
 
 <style>
@@ -23,6 +9,9 @@
 		padding: 1em;
 		max-width: 240px;
 		margin: 0 auto;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
 	}
 
 	h1 {
@@ -40,15 +29,8 @@
 </style>
 
 <main>
-	<h1>Hello {name}!</h1>
-	<p>
-		Visit the
-		<a href="https://svelte.dev/tutorial">Svelte tutorial</a>
-		to learn how to build Svelte apps.
-	</p>
+	<h1>Rhetorician Speech Bot</h1>
 
-	<button on:click={start}>Start</button>
-	<button on:click={speak}>Speak</button>
-
-	<textarea bind:value={spokenText} />
+	<Rhetorician />
+	<textarea bind:value={$speechStore} />
 </main>
