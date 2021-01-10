@@ -1,2 +1,2 @@
-export default from "./components/Recognition.svelte";
-export default from "./components/Synthesis.svelte";
+export { default as SpeechRecognition } from "./components/SpeechRecognition.svelte"
+export { default as TextToSpeech } from "./components/TextToSpeech.svelte"

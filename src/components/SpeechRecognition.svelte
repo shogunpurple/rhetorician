@@ -1,39 +1,42 @@
 <script>
-	import Speech from "./Speech";
+	import Speech from "../Speech";
+	import Button from "./Button.svelte";
+	import MicrophoneSlash from "./svg/MicrophoneSlash.svelte";
+	import MicrophoneSolid from "./svg/MicrophoneSolid.svelte";
 
-    export let name;
-    export let continuous = false
-    export let language 
-    export let transcript = "";
+	// TODO: revisit and make sure that continuous works
+	export let continuous = false;
+	export let language = "en-GB";
+	export let transcript
 
-    let listening = false
+	let listening = false;
 
 	const speech = new Speech({
-        continuous,
-        lang: language,
-    });
+		continuous,
+		lang: language,
+		onSpeech: (words) => {
+			transcript = words
+		},
+		onEnd: () => {
+			listening = false;
+		},
+	});
 
-	speech.onSpeech = (transcript) => (spokenText = transcript)
+	function handleClick() {
+		if (listening) {
+			speech.stopListening();
+		} else {
+			speech.listen();
+		}
 
-	function start() {
-		speech.listen();
-	}
-
-	function speak() {
-		speech.speak(spokenText);
+		listening = !listening;
 	}
 </script>
 
-<style>
-	main {
-		text-align: center;
-		padding: 1em;
-		max-width: 240px;
-		margin: 0 auto;
-	}
-</style>
-
-<main>
-	<button on:click={start}>Listen</button>
-	<textarea bind:value={transcript} />
-</main>
+<Button on:click={handleClick} {listening}>
+	{#if listening}
+		<MicrophoneSlash />
+	{:else}
+		<MicrophoneSolid />
+	{/if}
+</Button>

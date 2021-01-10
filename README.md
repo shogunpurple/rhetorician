@@ -2,7 +2,7 @@
 
 Rhetorician is a svelte wrapper around the experimental [Web Speech API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Speech_API/Using_the_Web_Speech_API). It provides UI components for speech recognition and text to speech.
 
-
+![Screenshot from 2021-01-10 22-01-46](https://user-images.githubusercontent.com/11256663/104136864-ce82b280-5390-11eb-8455-855c562fe8d8.png)
 
 
 ## Get started
