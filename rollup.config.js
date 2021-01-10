@@ -34,14 +34,14 @@ const productionConfig = {
 	output: {
 		sourcemap: true,
 		format: 'iife',
-		name: 'app',
-		file: 'public/build/bundle.js'
+		name: 'rhetorician',
+		file: 'dist/rhetorician.js'
 	},
 	plugins: [
 		svelte({
 			compilerOptions: {
 				// enable run-time checks when not in production
-				dev: !production
+				dev: false
 			}
 		}),
 		// we'll extract any component CSS out into
