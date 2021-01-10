@@ -1,20 +1,27 @@
 <script>
-    import Button from "./Button.svelte";
-	import Speech from "../Speech";
-	import { speechStore } from "../stores";
-	import SpeechBubble from "./SpeechBubble.svelte";
+	import Button from "./Button.svelte";
+	import SpeechBubble from "./svg/SpeechBubble.svelte";
 
-	const speech = new Speech({
-		continuous,
-		lang: language,
-		onSpeech: (words) => speechStore.set(words),
-		onEnd: () => {
-			listening = false;
-		},
-	});
+	export let transcript;
+
+	let speechSynthesis = window.speechSynthesis;
+
+	speechSynthesis.voice = speechSynthesis.getVoices()[0];
 
 	function speak() {
-		speech.speak($speechStore);
+		if (speechSynthesis.speaking) {
+			console.warn("Cannot speak while still recording");
+			return;
+		}
+
+		const utterance = new SpeechSynthesisUtterance(transcript);
+
+		// Speaking Options
+		utterance.pitch = 1;
+		utterance.rate = 1;
+
+		speechSynthesis.cancel();
+		speechSynthesis.speak(utterance);
 	}
 </script>
 

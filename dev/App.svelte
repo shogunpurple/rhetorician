@@ -1,6 +1,6 @@
 <script>
-	import Rhetorician from "./components/SpeechRecognition.svelte"
-	import { speechStore } from "./stores"
+	import { SpeechRecognition, TextToSpeech } from "../src"
+	import { speechStore } from "../src/stores"
 </script>
 
 <style>
@@ -31,6 +31,7 @@
 <main>
 	<h1>Rhetorician Speech Bot</h1>
 
-	<Rhetorician />
+	<SpeechRecognition bind:transcript={$speechStore} />
 	<textarea bind:value={$speechStore} />
+	<TextToSpeech transcript={$speechStore} /> 
 </main>

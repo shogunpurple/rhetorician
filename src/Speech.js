@@ -1,7 +1,7 @@
-const Recognition = window.SpeechRecognition || webkitSpeechRecognition;
-const GrammarList = window.SpeechGrammarList || webkitSpeechGrammarList;
+const Recognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+const GrammarList = window.SpeechGrammarList || window.webkitSpeechGrammarList;
 const RecognitionEvent =
-  window.SpeechRecognitionEvent || webkitSpeechRecognitionEvent;
+  window.SpeechRecognitionEvent || window.webkitSpeechRecognitionEvent;
 
 export default class Speech {
   constructor({
@@ -23,8 +23,6 @@ export default class Speech {
     // Speech Related Constructors
     this.recognition = new Recognition();
     this.speechRecognitionList = new GrammarList();
-    this.speechSynthesis = speechSynthesis;
-    this.speechSynthesis.voice = this.speechSynthesis.getVoices()[0];
 
     // Recognition Config
     this.recognition.grammars = this.speechRecognitionList;
@@ -41,8 +39,7 @@ export default class Speech {
   }
 
   handleResult = (event) => {
-    console.log(event.results);
-    const result = event.results[0][0].transcript;
+    const result = event.results?.[0]?.[0]?.transcript ?? "";
     this.transcript += result;
     // call the handler with the speech results
     this.onSpeech(this.transcript);
@@ -71,21 +68,5 @@ export default class Speech {
 
   stopListening() {
     this.recognition.stop();
-  }
-
-  speak(transcript) {
-    if (speechSynthesis.speaking) {
-      console.warn("Cannot speak while still recording");
-      return;
-    }
-
-    const utterance = new SpeechSynthesisUtterance(transcript);
-
-    // Speaking Options
-    utterance.pitch = 1;
-    utterance.rate = 1;
-
-    this.speechSynthesis.cancel();
-    this.speechSynthesis.speak(utterance);
   }
 }
